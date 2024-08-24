@@ -157,6 +157,7 @@ Usage: ![Shelley Address Distribution](https://github.com/user-attachments/asset
     ORDER BY
         retiring_epoch DESC;
 ```
+Usage: ![Retiring pools per Epoch](https://github.com/user-attachments/assets/a8bfe6ea-c9c6-46b2-afb5-eff0bbdac1e5)
 
 ##  Retrieve Cardno Blockchain parameters information per epoch
 
