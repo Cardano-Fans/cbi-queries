@@ -22,6 +22,9 @@ All queries are being used againt the BigQuery project (`BQ_PROJECT_ID`): `block
         epoch_no
 ```
 
+Usage: ![Stake in Pool Group Distribution](https://github.com/user-attachments/assets/ee41c587-749c-4db1-b31c-aed1fd242855)
+
+
 ## Retrieve wallet wealth percentile distribution per epoch
 
 ```sql
