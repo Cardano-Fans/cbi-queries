@@ -22,7 +22,9 @@ All queries are being used againt the BigQuery project (`BQ_PROJECT_ID`): `block
         epoch_no
 ```
 
-Usage: ![Stake in Pool Group Distribution](https://github.com/user-attachments/assets/ee41c587-749c-4db1-b31c-aed1fd242855)
+Usage: 
+
+![Stake in Pool Group Distribution](https://github.com/user-attachments/assets/ee41c587-749c-4db1-b31c-aed1fd242855)
 
 
 ## Retrieve wallet wealth percentile distribution per epoch
@@ -49,7 +51,9 @@ Usage: ![Stake in Pool Group Distribution](https://github.com/user-attachments/a
         1,4
 ```
 
-Usage: ![Shelly Weath Distribution / Epoch](https://github.com/user-attachments/assets/8aea0fb1-70e4-4df5-b3af-ae92302ecdc6)
+Usage: 
+
+![Shelly Weath Distribution / Epoch](https://github.com/user-attachments/assets/8aea0fb1-70e4-4df5-b3af-ae92302ecdc6)
 
 
 ## Retrieve wallet wealth bracket distribution per epoch 
@@ -90,7 +94,9 @@ Usage: ![Shelly Weath Distribution / Epoch](https://github.com/user-attachments/
     WHERE epoch_no=@epoch
     GROUP BY epoch_stake.epoch_no
 ```
-Usage: ![Shelley Address Distribution](https://github.com/user-attachments/assets/ca34248c-e3e8-49ba-be48-e15951e2706b)
+Usage: 
+
+![Shelley Address Distribution](https://github.com/user-attachments/assets/ca34248c-e3e8-49ba-be48-e15951e2706b)
 
 ## Retrieve Cardano Blockchain general statistics
 
@@ -141,6 +147,11 @@ Usage: ![Shelley Address Distribution](https://github.com/user-attachments/asset
     ORDER BY
         epoch_no DESC;
 ```
+
+Usage:
+
+![Avg Transactions per Block and Block X Avg Transaction Size charts](https://github.com/user-attachments/assets/e6e3e64b-f9a2-42d4-b3bc-a3c20c3581b0)
+
 
 ##  Retrieve number of retiring pools per epoch
 
@@ -246,6 +257,11 @@ Usage:
     FROM
       OUTGOING_UTXOS     
 ```
+
+Usage:
+
+![Value Locked in Scripts / Epoch](https://github.com/user-attachments/assets/876e7e03-e467-402b-919f-bc3e641de0b4)
+
 
 ##  Retrieve transactions information per epoch 
 
@@ -355,6 +371,10 @@ Usage:
     ON
       t1.epoch_no = tx_info.epoch_no;
 ```
+
+Usage:
+
+![Transactions Per Epoch](https://github.com/user-attachments/assets/0826490b-68c6-46b0-b448-ce408c493a85)
 
 ##  Retrieve transactions metadata information per epoch
 
