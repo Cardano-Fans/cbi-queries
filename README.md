@@ -157,7 +157,9 @@ Usage: ![Shelley Address Distribution](https://github.com/user-attachments/asset
     ORDER BY
         retiring_epoch DESC;
 ```
-Usage: ![Retiring pools per Epoch](https://github.com/user-attachments/assets/a8bfe6ea-c9c6-46b2-afb5-eff0bbdac1e5)
+Usage: 
+
+![Retiring pools per Epoch](https://github.com/user-attachments/assets/a8bfe6ea-c9c6-46b2-afb5-eff0bbdac1e5)
 
 ##  Retrieve Cardno Blockchain parameters information per epoch
 
@@ -183,6 +185,9 @@ Usage: ![Retiring pools per Epoch](https://github.com/user-attachments/assets/a8
     GROUP BY
         type
 ```
+Usage: 
+
+![Smart Contracts / Day](https://github.com/user-attachments/assets/4f8ff907-1409-4347-aec8-ee1a49bd4274)
 
 ##  Retrieve total value locked on scripts
 
