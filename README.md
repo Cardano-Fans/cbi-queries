@@ -90,6 +90,7 @@ Usage: ![Shelly Weath Distribution / Epoch](https://github.com/user-attachments/
     WHERE epoch_no=@epoch
     GROUP BY epoch_stake.epoch_no
 ```
+Usage: ![Shelley Address Distribution](https://github.com/user-attachments/assets/ca34248c-e3e8-49ba-be48-e15951e2706b)
 
 ## Retrieve Cardano Blockchain general statistics
 
