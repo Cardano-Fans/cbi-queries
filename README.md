@@ -49,6 +49,9 @@ Usage: ![Stake in Pool Group Distribution](https://github.com/user-attachments/a
         1,4
 ```
 
+Usage: ![Shelly Weath Distribution / Epoch](https://github.com/user-attachments/assets/8aea0fb1-70e4-4df5-b3af-ae92302ecdc6)
+
+
 ## Retrieve wallet wealth bracket distribution per epoch 
 
 ```sql
