@@ -203,6 +203,24 @@ Usage:
 
 ![Retiring pools per Epoch](https://github.com/user-attachments/assets/a8bfe6ea-c9c6-46b2-afb5-eff0bbdac1e5)
 
+##  Retrieve top N scripts per usage
+
+```sql
+    SELECT
+        JSON_EXTRACT_SCALAR(r, '$.script_hash') AS script_hash,
+        COUNT(1) AS total_calls
+    FROM
+        `{BQ_PROJECT_ID}.cardano_mainnet.redeemer` AS redeemer
+    LEFT JOIN
+        UNNEST(JSON_EXTRACT_ARRAY(redeemer.redeemers)) AS r
+    GROUP BY
+        script_hash
+    ORDER BY
+        total_calls DESC
+    LIMIT
+        @top;
+```
+
 ##  Retrieve script count per type
 
 ```sql
@@ -431,24 +449,6 @@ Usage:
 Usage:
 
 ![Transactions Per Epoch](https://github.com/user-attachments/assets/0826490b-68c6-46b0-b448-ce408c493a85)
-
-##  Retrieve top N scripts per usage
-
-```sql
-    SELECT
-        JSON_EXTRACT_SCALAR(r, '$.script_hash') AS script_hash,
-        COUNT(1) AS total_calls
-    FROM
-        `{BQ_PROJECT_ID}.cardano_mainnet.redeemer` AS redeemer
-    LEFT JOIN
-        UNNEST(JSON_EXTRACT_ARRAY(redeemer.redeemers)) AS r
-    GROUP BY
-        script_hash
-    ORDER BY
-        total_calls DESC
-    LIMIT
-        @top;
-```
 
 ##  Retrieve treasury information
 
