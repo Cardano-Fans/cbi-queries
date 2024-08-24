@@ -443,6 +443,9 @@ Usage:
     WHERE
         epoch_no=@epoch
 ```
+Usage:
+
+![Treasury / Epoch](https://github.com/user-attachments/assets/b65bdd84-c508-4adc-9ead-a2e5823626e7)
 
 ##  Retrieve minted tokens and policies
 
