@@ -4,6 +4,24 @@ Describe all queries being used on the [Cardano Blockchain Insights](https://loo
 
 All queries are being used againt the BigQuery project (`BQ_PROJECT_ID`): `blockchain-analytics-392322` ([more info](https://github.com/Blockchain-Data-Analytics/Cardano_on_BigQuery/wiki))
 
+##  Retrieve stake distribution per pool, per epoch
+
+```sql
+    SELECT
+        pool_hash,
+        epoch_no,
+        SUM(amount) / 1000000 AS stake,
+        COUNT(stake_addr_hash) AS num_addr
+    FROM
+        `{BQ_PROJECT_ID}.cardano_mainnet.epoch_stake`
+    WHERE
+        epoch_no = @epoch
+        AND amount > 0
+    GROUP BY
+        pool_hash,
+        epoch_no;
+```
+
 ## Retrieve pool total stake distribution per epoch
 
 ```sql
@@ -148,6 +166,19 @@ Usage:
         epoch_no DESC;
 ```
 
+##  Retrieve Cardno Blockchain parameters information per epoch
+
+```sql
+    SELECT
+        epoch_no,
+        max_block_size,
+        max_tx_size
+    FROM
+        `{BQ_PROJECT_ID}.cardano_mainnet.epoch_param` as epoch_param
+    WHERE
+        epoch_no=@epoch;
+```
+
 Usage:
 
 ![Avg Transactions per Block and Block X Avg Transaction Size charts](https://github.com/user-attachments/assets/e6e3e64b-f9a2-42d4-b3bc-a3c20c3581b0)
@@ -171,19 +202,6 @@ Usage:
 Usage: 
 
 ![Retiring pools per Epoch](https://github.com/user-attachments/assets/a8bfe6ea-c9c6-46b2-afb5-eff0bbdac1e5)
-
-##  Retrieve Cardno Blockchain parameters information per epoch
-
-```sql
-    SELECT
-        epoch_no,
-        max_block_size,
-        max_tx_size
-    FROM
-        `{BQ_PROJECT_ID}.cardano_mainnet.epoch_param` as epoch_param
-    WHERE
-        epoch_no=@epoch;
-```
 
 ##  Retrieve script count per type
 
@@ -262,6 +280,44 @@ Usage:
 
 ![Value Locked in Scripts / Epoch](https://github.com/user-attachments/assets/876e7e03-e467-402b-919f-bc3e641de0b4)
 
+##  Retrieve transactions metadata information per epoch
+
+```sql
+    WITH
+        tx_metadata_unnested AS (
+        SELECT
+            tx_metadata.epoch_no,
+            tx_metadata.tx_hash,
+            JSON_EXTRACT_SCALAR(m, '$.index') AS key
+        FROM
+            `{BQ_PROJECT_ID}.cardano_mainnet.tx_metadata` AS tx_metadata,
+            UNNEST(JSON_EXTRACT_ARRAY(metadata)) AS m
+        WHERE
+            tx_metadata.epoch_no = @epoch)
+
+    SELECT
+        tx_metadata_unnested.epoch_no,
+        tx_metadata_unnested.key,
+        COUNT(DISTINCT tx_metadata_unnested.tx_hash) AS tx_count,
+        TRUNC(AVG(tx.size),2) AS avg_txs_size_bytes
+    FROM
+        tx_metadata_unnested
+    INNER JOIN
+        `{BQ_PROJECT_ID}.cardano_mainnet.tx` AS tx
+    ON
+        tx.tx_hash = tx_metadata_unnested.tx_hash
+    INNER JOIN
+        `{BQ_PROJECT_ID}.cardano_mainnet.block` AS block
+    ON
+        block.slot_no = tx.slot_no
+    WHERE
+        tx.epoch_no = @epoch
+    GROUP BY
+        tx_metadata_unnested.epoch_no,
+        tx_metadata_unnested.key
+    ORDER BY
+        epoch_no DESC, tx_count DESC;
+```
 
 ##  Retrieve transactions information per epoch 
 
@@ -376,45 +432,6 @@ Usage:
 
 ![Transactions Per Epoch](https://github.com/user-attachments/assets/0826490b-68c6-46b0-b448-ce408c493a85)
 
-##  Retrieve transactions metadata information per epoch
-
-```sql
-    WITH
-        tx_metadata_unnested AS (
-        SELECT
-            tx_metadata.epoch_no,
-            tx_metadata.tx_hash,
-            JSON_EXTRACT_SCALAR(m, '$.index') AS key
-        FROM
-            `{BQ_PROJECT_ID}.cardano_mainnet.tx_metadata` AS tx_metadata,
-            UNNEST(JSON_EXTRACT_ARRAY(metadata)) AS m
-        WHERE
-            tx_metadata.epoch_no = @epoch)
-
-    SELECT
-        tx_metadata_unnested.epoch_no,
-        tx_metadata_unnested.key,
-        COUNT(DISTINCT tx_metadata_unnested.tx_hash) AS tx_count,
-        TRUNC(AVG(tx.size),2) AS avg_txs_size_bytes
-    FROM
-        tx_metadata_unnested
-    INNER JOIN
-        `{BQ_PROJECT_ID}.cardano_mainnet.tx` AS tx
-    ON
-        tx.tx_hash = tx_metadata_unnested.tx_hash
-    INNER JOIN
-        `{BQ_PROJECT_ID}.cardano_mainnet.block` AS block
-    ON
-        block.slot_no = tx.slot_no
-    WHERE
-        tx.epoch_no = @epoch
-    GROUP BY
-        tx_metadata_unnested.epoch_no,
-        tx_metadata_unnested.key
-    ORDER BY
-        epoch_no DESC, tx_count DESC;
-```
-
 ##  Retrieve top N scripts per usage
 
 ```sql
@@ -456,6 +473,9 @@ Usage:
     FROM
        `{BQ_PROJECT_ID}.cardano_mainnet.ma_minting`;
 ```
+Usage: 
+
+![Native Tokens / Day](https://github.com/user-attachments/assets/579bce31-5648-4cd1-81da-5fd49de1cdc5)
 
 ##  Retrieve NFTs count
 
@@ -487,21 +507,6 @@ Usage:
     FROM
         non_duplicated_assets;
 ```
+Usage:
 
-##  Retrieve stake distribution per pool, per epoch
-
-```sql
-    SELECT
-        pool_hash,
-        epoch_no,
-        SUM(amount) / 1000000 AS stake,
-        COUNT(stake_addr_hash) AS num_addr
-    FROM
-        `{BQ_PROJECT_ID}.cardano_mainnet.epoch_stake`
-    WHERE
-        epoch_no = @epoch
-        AND amount > 0
-    GROUP BY
-        pool_hash,
-        epoch_no;
-```
+![Native Tokens / Epoch](https://github.com/user-attachments/assets/d87a9264-57ea-4e1d-b0c5-bfcf03101084)
